@@ -3,12 +3,7 @@ import pandas as pd
 import snowflake.connector
 import requests
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
-my_data_row = my_cur.fetchall()
-streamlit.text("The fruit lod list contains:")
-streamlit.dataframe(my_data_row)
+
 
 streamlit.title("My Parents New Healthy Diner") 
 
@@ -35,3 +30,13 @@ streamlit.write('The user entered ', fruit_choice)
 
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
 streamlit.dataframe(pd.json_normalize(fruityvice_response.json()))
+
+
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+my_data_row = my_cur.fetchall()
+streamlit.text("The fruit lod list contains:")
+streamlit.dataframe(my_data_row)
+
+fruit_choice = streamlit.text_input('What fruit would you like to add?','Jackfruit')
